@@ -8,7 +8,7 @@ interface InsightCardProps {
   onReset: () => void;
 }
 
-const InsightCard: React.FC<InsightCardProps> = ({ insight, onReset }) => {
+const InsightCard: React.FC<InsightCardProps> = ({ insight, onReset ,loading}) => {
   const [visibleSteps, setVisibleSteps] = useState(0);
 
   useEffect(() => {

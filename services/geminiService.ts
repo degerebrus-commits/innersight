@@ -1,9 +1,8 @@
-
 import { GoogleGenAI, Type } from "@google/genai";
 import { Insight } from "../types";
 
 export async function fetchInsight(signal: string, modulator: string): Promise<Insight> {
-  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+  const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_API_URL });
   
   const systemInstruction = `
     You are a philosophical mentor with a calm, zen, and minimalist voice. 

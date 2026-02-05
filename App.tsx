@@ -13,19 +13,18 @@ const App: React.FC = () => {
   const [selectedSignal, setSelectedSignal] = useState<Signal | null>(null);
   const [selectedModulator, setSelectedModulator] = useState<Modulator | null>(null);
   const [insight, setInsight] = useState<Insight | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const handleSignalSelect = (signal: Signal) => {
     setSelectedSignal(signal);
     setScreen(AppScreen.MODULATOR_SELECTION);
   };
 
-  const handleModulatorSelect = async (modulator: Modulator) => {
-    setSelectedModulator(modulator);
-    setScreen(AppScreen.LOADING);
+  const handleModulatorSelect = async (signal: Signal, modulator: Modulator) => {
 
-    if (selectedSignal) {
+    if (signal && modulator) {
       try {
-        const result = await fetchInsight(selectedSignal.name, modulator.name);
+        const result = await fetchInsight(signal.name, modulator.name);
         setInsight(result);
         setScreen(AppScreen.INSIGHT_CARD);
       } catch (error) {
@@ -96,8 +95,8 @@ const App: React.FC = () => {
 
           {screen === AppScreen.MODULATOR_SELECTION && selectedSignal && (
             <ModulatorList 
-              selectedSignal={selectedSignal} 
-              onSelect={handleModulatorSelect} 
+              selectedSignal={selectedSignal}
+              onSelect={handleModulatorSelect}
             />
           )}
 
@@ -128,7 +127,7 @@ const App: React.FC = () => {
           )}
 
           {screen === AppScreen.INSIGHT_CARD && insight && (
-            <InsightCard insight={insight} onReset={reset} />
+            <InsightCard insight={insight} onReset={reset} loading={loading} />
           )}
         </div>
       </div>

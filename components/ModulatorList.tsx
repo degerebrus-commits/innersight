@@ -1,7 +1,9 @@
 
 import React from 'react';
+import {useState} from 'react'
 import { MODULATORS, THEME } from '../constants';
 import { Modulator, Signal } from '../types';
+import { generateInsight } from "../services/generateInsight";
 
 interface ModulatorListProps {
   selectedSignal: Signal;
@@ -9,6 +11,9 @@ interface ModulatorListProps {
 }
 
 const ModulatorList: React.FC<ModulatorListProps> = ({ selectedSignal, onSelect }) => {
+
+  const [loading, setLoading] = useState(false);
+
   return (
     <div className="w-full flex flex-col h-full animate-in fade-in slide-in-from-bottom-4 duration-700">
       <div className="mb-8 space-y-2">
@@ -20,7 +25,7 @@ const ModulatorList: React.FC<ModulatorListProps> = ({ selectedSignal, onSelect 
         {MODULATORS.map((mod, idx) => (
           <button
             key={mod.name}
-            onClick={() => onSelect(mod)}
+            onClick={() => onSelect(selectedSignal, mod)}
             className="w-full text-left p-6 bg-white rounded-2xl border border-black/5 shadow-sm transition-all hover:border-[#5A9A9A]/30 active:scale-[0.98] group flex justify-between items-center"
             style={{ 
               animationDelay: `${idx * 100}ms`,
